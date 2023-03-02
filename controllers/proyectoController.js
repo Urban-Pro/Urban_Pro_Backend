@@ -141,27 +141,27 @@ const agregarColaborador = async (req, res) => {
 
   // El colaborador no es el admin del proyecto
   if (proyecto.creador.toString() === usuario._id.toString()) {
-    const error = new Error("El Creador del Proyecto no puede ser colaborador");
+    const error = new Error("El Creador de la Modelo no puede ser colaborador");
     return res.status(404).json({ msg: error.message });
   }
 
   // Revisar que no este ya agregado al proyecto
   if (proyecto.colaboradores.includes(usuario._id)) {
-    const error = new Error("El Usuario ya pertenece al Proyecto");
+    const error = new Error("El Usuario ya pertenece a la Modelo");
     return res.status(404).json({ msg: error.message });
   }
 
   // Esta bien, se puede agregar
   proyecto.colaboradores.push(usuario._id);
   await proyecto.save();
-  res.json({ msg: "Colaborador Agregado Correctamente" });
+  res.json({ msg: "Colaborador-Modelo Agregado Correctamente" });
 };
 
 const eliminarColaborador = async (req, res) => {
   const proyecto = await Proyecto.findById(req.params.id);
 
   if (!proyecto) {
-    const error = new Error("Proyecto No Encontrado");
+    const error = new Error("Modelo No Encontrada");
     return res.status(404).json({ msg: error.message });
   }
 
@@ -173,7 +173,7 @@ const eliminarColaborador = async (req, res) => {
   // Esta bien, se puede eliminar
   proyecto.colaboradores.pull(req.body.id);
   await proyecto.save();
-  res.json({ msg: "Colaborador Eliminado Correctamente" });
+  res.json({ msg: "Colaborador-Modelo Eliminado Correctamente" });
 };
 
 export {
