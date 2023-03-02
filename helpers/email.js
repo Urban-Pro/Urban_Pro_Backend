@@ -15,11 +15,11 @@ export const emailRegistro = async (datos) => {
   // Información del email
 
   const info = await transport.sendMail({
-    from: '"UpTask - Administrador de Proyectos" <cuentas@uptask.com>',
+    from: '"Urban Pro App - Administrador de Modelos" <urbanproapp@outlook.com>',
     to: email,
-    subject: "UpTask - Comprueba tu cuenta",
-    text: "Comprueba tu cuenta en UpTask",
-    html: `<p>Hola: ${nombre} Comprueba tu cuenta en UpTask</p>
+    subject: "Urban Pro App - Comprueba tu cuenta",
+    text: "Comprueba tu cuenta en Urban Pro App",
+    html: `<p>Hola: ${nombre} Comprueba tu cuenta en Urban Pro App</p>
     <p>Tu cuenta ya esta casi lista, solo debes comprobarla en el siguiente enlace: 
 
     <a href="${process.env.FRONTEND_URL}/confirmar/${token}">Comprobar Cuenta</a>
@@ -46,9 +46,9 @@ export const emailOlvidePassword = async (datos) => {
   // Información del email
 
   const info = await transport.sendMail({
-    from: '"UpTask - Administrador de Proyectos" <cuentas@uptask.com>',
+    from: '"Urban Pro App - Administrador de Modelos" <urbanproapp@outlook.com>',
     to: email,
-    subject: "UpTask - Reestablece tu Password",
+    subject: "Urban Pro App - Reestablece tu Password",
     text: "Reestablece tu Password",
     html: `<p>Hola: ${nombre} has solicitado reestablecer tu password</p>
 
