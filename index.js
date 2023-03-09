@@ -5,8 +5,8 @@ import conectarDB from "./config/db.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
 import tareaRoutes from "./routes/tareaRoutes.js";
-import multer from "multer"
-import Telegraf from "telegraf"
+import multer from "multer";
+import Telegraf from "telegraf";
 
 const app = express();
 
@@ -33,10 +33,33 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Configurar multer
+const upload = multer({ dest: "uploads/" });
+
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
+
+app.post("/api/upload", upload.single("archivo"), (req, res) => {
+  const file = req.file;
+
+  // Enviar el archivo al canal privado de Telegram
+  const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
+  bot.telegram
+    .sendDocument(
+      "-1001476325427",
+      { source: file.path },
+      { caption: "Nuevo archivo cargado" }
+    )
+    .then(() => {
+      res.json({ message: "Archivo cargado correctamente" });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "Error al cargar el archivo" });
+    });
+});
 
 const PORT = process.env.PORT || 4000;
 const servidor = app.listen(PORT, () => {
