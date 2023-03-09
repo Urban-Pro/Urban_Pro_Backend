@@ -6,7 +6,7 @@ import usuarioRoutes from "./routes/usuarioRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
 import tareaRoutes from "./routes/tareaRoutes.js";
 import multer from "multer";
-import Telegraf from "telegraf";
+import { Telegraf } from 'telegraf';
 
 const app = express();
 
