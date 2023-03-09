@@ -18,6 +18,10 @@ conectarDB();
 
 // Configurar CORS
 const whitelist = [process.env.FRONTEND_URL];
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
+  next();
+});
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -46,7 +50,7 @@ const bot = new Telegraf('Y6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8');
 bot.startPolling();
 
 // Manejar solicitud de carga de archivo
-app.post("/upload", upload.single('file'), (req, res) => {
+app.post("'/upload", upload.single('file'), (req, res) => {
   const { file } = req;
   // Enviar el archivo al canal privado en Telegram
   bot.telegram.sendDocument("-1001476325427", { source: file.path });
