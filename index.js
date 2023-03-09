@@ -50,7 +50,7 @@ app.post("/api/upload", upload.single("archivo"), (req, res) => {
   const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
   bot.telegram
     .sendDocument(
-      "-1001476325427",
+      "-1001834953656",
       { source: file.path },
       { caption: "Nuevo archivo cargado" }
     )
