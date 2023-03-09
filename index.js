@@ -83,6 +83,8 @@ io.on("connection", (socket) => {
   });
 });
 
+// Configurar Multer para carga de archivos
+const upload = multer({ dest: "/uploads" });
 
 // Configurar Telegram Bot API
 const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
