@@ -34,7 +34,16 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Configurar multer
-const upload = multer({ dest: "uploads/" }).array("archivos");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage }).array("archivos");
 
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
