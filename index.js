@@ -47,7 +47,7 @@ app.post("/api/upload", upload, (req, res) => {
   console.log(files); // Agregar este mensaje de registro
 
   // Enviar los archivos al canal privado de Telegram
-  const bot = new Telegraf("BOT_TOKEN");
+  const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
   Promise.all(
     files.map((file) =>
       bot.telegram.sendDocument(
