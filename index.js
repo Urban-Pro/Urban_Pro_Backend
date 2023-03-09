@@ -42,6 +42,7 @@ app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
 
 app.post("/api/upload", upload.single("archivo"), (req, res) => {
+  console.log("upload")
   const file = req.file;
   console.log(file); // Agregar este mensaje de registro
 
