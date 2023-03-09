@@ -35,6 +35,23 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const upload = multer({ dest: 'uploads/' });
+// Configurar Telegram Bot API
+const bot = new Telegraf('Y6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8');
+bot.startPolling();
+
+// Manejar solicitud de carga de archivo
+app.post('/upload', upload.single('file'), (req, res) => {
+  const { file } = req;
+  // Enviar el archivo al canal privado en Telegram
+  bot.telegram.sendDocument("-1001476325427", { source: file.path });
+  // Eliminar el archivo temporal después de enviarlo
+  fs.unlink(file.path, (error) => {
+    if (error) console.log(error);
+  });
+  res.send('Archivo cargado y enviado a Telegram');
+});
+
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
