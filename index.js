@@ -32,9 +32,13 @@ const corsOptions = {
   credentials: true
 };
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
+  next();
+});
+
 
 app.use(cors(corsOptions));
-app.post(cors(corsOptions));
 
 const upload = multer({ dest: 'uploads/' });
 // Configurar Telegram Bot API
