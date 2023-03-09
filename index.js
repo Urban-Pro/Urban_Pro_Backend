@@ -9,22 +9,6 @@ import multer from "multer"
 import Telegraf from "telegraf"
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
-// Configurar Telegram Bot API
-const bot = new Telegraf('Y6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8');
-bot.startPolling();
-
-// Manejar solicitud de carga de archivo
-app.post('/upload', upload.single('file'), (req, res) => {
-  const { file } = req;
-  // Enviar el archivo al canal privado en Telegram
-  bot.telegram.sendDocument("-1001476325427", { source: file.path });
-  // Eliminar el archivo temporal después de enviarlo
-  fs.unlink(file.path, (error) => {
-    if (error) console.log(error);
-  });
-  res.send('Archivo cargado y enviado a Telegram');
-});
 
 app.use(express.json());
 
@@ -45,7 +29,9 @@ const corsOptions = {
       callback(new Error("Error de Cors"));
     }
   },
+  credentials: true
 };
+
 
 app.use(cors(corsOptions));
 
