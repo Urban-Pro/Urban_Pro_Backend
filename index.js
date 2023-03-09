@@ -5,10 +5,8 @@ import conectarDB from "./config/db.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
 import tareaRoutes from "./routes/tareaRoutes.js";
-import multer from "multer";
-import Telegraf from "telegraf";
-import { Server } from "socket.io";
-import http from "http";
+import multer from "multer"
+import Telegraf from "telegraf"
 
 const app = express();
 
@@ -41,17 +39,22 @@ app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
 
 const PORT = process.env.PORT || 4000;
-const servidor = http.createServer(app);
+const servidor = app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
+
+// Socket.io
+import { Server } from "socket.io";
 
 const io = new Server(servidor, {
+  pingTimeout: 60000,
   cors: {
     origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST"]
   },
 });
 
 io.on("connection", (socket) => {
-  console.log("Usuario conectado a socket.io");
+  // console.log("Conectado a socket.io");
 
   // Definir los eventos de socket io
   socket.on("abrir proyecto", (proyecto) => {
@@ -77,28 +80,4 @@ io.on("connection", (socket) => {
     const proyecto = tarea.proyecto._id;
     socket.to(proyecto).emit("nuevo estado", tarea);
   });
-
-  socket.on("disconnect", () => {
-    console.log("Usuario desconectado de socket.io");
-  });
-});
-
-servidor.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
-
-// Configurar Telegram Bot API
-const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
-bot.startPolling();
-
-// Manejar solicitud de carga de archivo
-app.post("/upload", multer({ dest: "uploads/" }).single("file"), (req, res) => {
-  const { file } = req;
-  // Enviar el archivo al canal privado en Telegram
-  bot.telegram.sendDocument("-1001476325427", { source: file.path });
-  // Eliminar el archivo temporal después de enviarlo
-  fs.unlink(file.path, (error) => {
-    if (error) console.log(error);
-  });
-  res.send("Archivo cargado y enviado a Telegram");
 });
