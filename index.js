@@ -34,7 +34,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Configurar multer
-const upload = multer({ dest: "uploads/" }).array("archivos");
+const upload = multer({ dest: "uploads/" });
 
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
