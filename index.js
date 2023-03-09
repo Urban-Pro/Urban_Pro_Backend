@@ -34,6 +34,7 @@ const corsOptions = {
 
 
 app.use(cors(corsOptions));
+app.post(cors(corsOptions));
 
 const upload = multer({ dest: 'uploads/' });
 // Configurar Telegram Bot API
