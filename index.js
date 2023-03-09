@@ -18,10 +18,6 @@ conectarDB();
 
 // Configurar CORS
 const whitelist = [process.env.FRONTEND_URL];
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-  next();
-});
 
 const corsOptions = {
   origin: function (origin, callback) {
