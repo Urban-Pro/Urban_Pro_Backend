@@ -46,6 +46,7 @@ const servidor = http.createServer(app);
 const io = new Server(servidor, {
   cors: {
     origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST"]
   },
 });
 
