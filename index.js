@@ -34,32 +34,35 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Configurar multer
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "uploads/" }).array("archivos");
 
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
 
-app.post("/api/upload", upload.single("archivo"), (req, res) => {
+app.post("/api/upload", upload, (req, res) => {
   console.log("upload")
-  const file = req.file;
-  console.log(file); // Agregar este mensaje de registro
+  const files = req.files;
+  console.log(files); // Agregar este mensaje de registro
 
-  // Enviar el archivo al canal privado de Telegram
-  const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
-  bot.telegram
-    .sendDocument(
-      "-1001834953656",
-      { source: file.path },
-      { caption: "Nuevo archivo cargado" }
+  // Enviar los archivos al canal privado de Telegram
+  const bot = new Telegraf("BOT_TOKEN");
+  Promise.all(
+    files.map((file) =>
+      bot.telegram.sendDocument(
+        "-1001834953656",
+        { source: file.path },
+        { caption: "Nuevo archivo cargado" }
+      )
     )
+  )
     .then(() => {
-      res.json({ message: "Archivo cargado correctamente" });
+      res.json({ message: "Archivos cargados correctamente" });
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).json({ message: "Error al cargar el archivo" });
+      res.status(500).json({ message: "Error al cargar los archivos" });
     });
 });
 
