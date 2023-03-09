@@ -43,6 +43,7 @@ app.use("/api/tareas", tareaRoutes);
 
 app.post("/api/upload", upload.single("archivo"), (req, res) => {
   const file = req.file;
+  console.log(file); // Agregar este mensaje de registro
 
   // Enviar el archivo al canal privado de Telegram
   const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
