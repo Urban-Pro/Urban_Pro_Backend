@@ -1,7 +1,9 @@
 import { Telegraf } from 'telegraf';
+import checkAuth from "../middleware/checkAuth.js";
 
 const telegram = async (req, res) => {
-  console.log(req.body);
+    console.log(checkAuth)
+  console.log(req.file);
   const file = req.file;
   console.log(file); // Agregar este mensaje de registro
 
