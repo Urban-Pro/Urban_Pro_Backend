@@ -2,7 +2,7 @@ import { Telegraf } from 'telegraf';
 import Usuario from "../models/Usuario.js";
 
 const telegram = async (req, res) => {
-  console.log(req.file);
+  console.log(req.file, Usuario.telegram);
   const file = req.file;
   console.log(file); // Agregar este mensaje de registro
 
