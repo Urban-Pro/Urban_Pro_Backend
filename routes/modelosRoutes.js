@@ -1,10 +1,18 @@
 import express from "express";
 
-import obtenerModelos from "../controllers/modelosController.js";
+import {obtenerModelos, editarModelo, obtenerModelo, eliminarModelo} from "../controllers/modelosController.js";
 import checkAuth from "../middleware/checkAuth.js";
 
 const router = express.Router();
 
-router.get("/", checkAuth, obtenerModelos)
+router
+  .route("/")
+  .get(checkAuth, obtenerModelos)
+
+router
+  .route("/:id")
+  .get(checkAuth, obtenerModelo)
+  .put(checkAuth, editarModelo)
+  .delete(checkAuth, eliminarModelo);
 
 export default router;
