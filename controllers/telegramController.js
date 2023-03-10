@@ -21,6 +21,4 @@ const telegram = async (req, res) => {
   }
 };
 
-export {
-  telegram
-};
+export default telegram
