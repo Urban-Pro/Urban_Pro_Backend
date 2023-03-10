@@ -4,6 +4,7 @@ import cors from "cors";
 import conectarDB from "./config/db.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
+import modelosRoutes from "./routes/modelosRoutes.js";
 import tareaRoutes from "./routes/tareaRoutes.js";
 import telegramRoutes from "./routes/telegramRoutes.js";
 import multer from "multer";
@@ -39,6 +40,7 @@ const upload = multer({ dest: "uploads/" });
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
+app.use("/api/modelos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
 app.use("/api/upload", upload.single("archivo"), telegramRoutes);
 
