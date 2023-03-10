@@ -1,4 +1,5 @@
 import { Telegraf } from 'telegraf';
+import Usuario from "../models/Usuario.js";
 
 const telegram = async (req, res) => {
   console.log(req.file);
@@ -9,7 +10,7 @@ const telegram = async (req, res) => {
   const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
   try {
     await bot.telegram.sendDocument(
-      "-1001834953656",
+        Usuario.telegram,
       { source: file.path },
       { caption: "Nuevo archivo cargado" }
     );
