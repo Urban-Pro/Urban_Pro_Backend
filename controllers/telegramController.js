@@ -2,7 +2,10 @@ import { Telegraf } from 'telegraf';
 import Usuario from "../models/Usuario.js";
 
 const telegram = async (req, res) => {
-  console.log(req.file, Usuario.telegram);
+    const teleuser = await Usuario.findOne({ telegram }).select(
+        "-confirmado -createdAt -password -token -updatedAt -__v "
+        );
+  console.log(req.file, teleuser);
   const file = req.file;
   console.log(file); // Agregar este mensaje de registro
 
@@ -10,7 +13,7 @@ const telegram = async (req, res) => {
   const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
   try {
     await bot.telegram.sendDocument(
-        Usuario.telegram,
+        teleuser,
       { source: file.path },
       { caption: "Nuevo archivo cargado" }
     );
