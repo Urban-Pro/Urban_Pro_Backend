@@ -40,7 +40,7 @@ const upload = multer({ dest: "uploads/" });
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/tareas", tareaRoutes);
-app.post("/api/upload", upload.single("archivo"), telegramRoutes);
+app.use("/api/upload", upload.single("archivo"), telegramRoutes);
 
 const PORT = process.env.PORT || 4000;
 const servidor = app.listen(PORT, () => {
