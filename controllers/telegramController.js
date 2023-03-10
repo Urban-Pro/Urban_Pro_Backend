@@ -2,10 +2,7 @@ import { Telegraf } from 'telegraf';
 import Usuario from "../models/Usuario.js";
 
 const telegram = async (req, res) => {
-    const teleuser = await Usuario.findOne({ telegram }).select(
-        "-confirmado -createdAt -password -token -updatedAt -__v "
-        );
-  console.log(req.file, teleuser);
+  console.log(req.file, req);
   const file = req.file;
   console.log(file); // Agregar este mensaje de registro
 
