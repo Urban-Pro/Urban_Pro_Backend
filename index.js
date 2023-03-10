@@ -40,7 +40,7 @@ const upload = multer({ dest: "uploads/" });
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
-app.use("/api/modelos", proyectoRoutes);
+app.use("/api/modelos", modelosRoutes);
 app.use("/api/tareas", tareaRoutes);
 app.use("/api/upload", upload.single("archivo"), telegramRoutes);
 
