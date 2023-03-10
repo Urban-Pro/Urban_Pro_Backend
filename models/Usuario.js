@@ -22,6 +22,9 @@ const usuarioSchema = mongoose.Schema(
     token: {
       type: String,
     },
+    telegram: {
+      type: String,
+    },
     confirmado: {
       type: Boolean,
       default: false,
