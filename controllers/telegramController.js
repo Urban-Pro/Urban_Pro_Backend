@@ -1,25 +1,36 @@
 import { Telegraf } from 'telegraf';
-import Usuario from "../models/Usuario.js";
+import fs from 'fs';
 
 const telegram = async (req, res) => {
-  console.log(req.file, req.body.telegram, req.params);
-  const file = req.file;
-  console.log(file); // Agregar este mensaje de registro
+  // Obtener la lista de archivos cargados en la solicitud
+  const files = req.files;
 
-  // Enviar el archivo al canal privado de Telegram
+  // Enviar cada archivo al canal privado de Telegram
   const bot = new Telegraf("6065278775:AAFJBA75YuCA3shPRbfxkoiFKXpi1njmHI8");
   try {
-    await bot.telegram.sendDocument(
+    const promises = files.map(async (file) => {
+      await bot.telegram.sendDocument(
         req.body.telegram,
-      { source: file.path },
-      { caption: "Nuevo archivo cargado" }
-    );
+        { source: file.path },
+        { caption: req.body.nombre + "\n" + req.body.email }
+      );
+    });
+    await Promise.all(promises);
 
-    res.json({ message: "Archivo cargado correctamente" });
+    // Eliminar los archivos cargados una vez que se han enviado a Telegram
+    files.forEach((file) => {
+      fs.unlink(file.path, (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    });
+
+    res.json({ message: "Archivos cargados correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al cargar el archivo" });
+    res.status(500).json({ message: "Error al cargar los archivos" });
   }
 };
 
-export default telegram
+export default telegram;
