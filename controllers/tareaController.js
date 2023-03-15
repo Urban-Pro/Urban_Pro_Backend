@@ -1,6 +1,6 @@
 import Proyecto from "../models/Proyecto.js";
 import Tarea from "../models/Tarea.js";
-import { emailNotificaciònTarea } from "../helpers/email.js";
+import { allowNotification } from "../helpers/email.js";
 
 const agregarTarea = async (req, res) => {
   const { proyecto } = req.body;
@@ -118,6 +118,7 @@ const eliminarTarea = async (req, res) => {
 };
 
 const cambiarEstado = async (req, res) => {
+  console.log(req.body.estado)
   const { id } = req.params;
 
   const tarea = await Tarea.findById(id).populate("proyecto");
@@ -146,6 +147,24 @@ const cambiarEstado = async (req, res) => {
     .populate("completado");
 
   res.json(tareaAlmacenada);
+
+/////// Envio de correo de notificaciòn de Allow o rechazado,cambio de estado
+
+  try {
+    // Enviar el email de confirmacion
+    allowNotification({
+      email: req.body.email,
+      estado: req.body.estado,
+      descripcion: req.body.descripcion
+    });
+
+    res.json({
+      msg: "Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
 export {

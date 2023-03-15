@@ -1,4 +1,42 @@
 import nodemailer from "nodemailer";
+                       
+export const allowNotification = async (datos) => {
+  const { email, descripcion } = datos;
+
+  const transport = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  
+  // Información del email
+
+  if (datos.estado == false) {
+
+  const info = await transport.sendMail({
+    from: '"Urban Pro App - Administrador de Modelos" <urbanproapp@outlook.com>',
+    to: "urbanproapp@outlook.com",
+    subject: `${email}, Acepto el pedido!`,
+    text: "Urban Pro App, te notifica un pedido Aceptado!",
+    html: `<p>Pedido: ${descripcion}</p>
+    `,
+  });
+    
+  } else {
+    const info = await transport.sendMail({
+      from: '"Urban Pro App - Administrador de Modelos" <urbanproapp@outlook.com>',
+      to: email,
+      subject: `Cancelaste el pedido`,
+      text: "Urban Pro App, te notifica que cancelaste el pedido!",
+      html: `<p>El pedido fue:</p>
+      <p>${descripcion}
+      `,
+    });
+  }
+};
 
 export const emailNotificaciònTarea = async (datos) => {
   const { email } = datos;
