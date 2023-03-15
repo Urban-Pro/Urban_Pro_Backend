@@ -1,5 +1,34 @@
 import nodemailer from "nodemailer";
 
+export const emailNotificaciònTarea = async (datos) => {
+  const { email } = datos;
+
+  const transport = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  // Información del email
+
+  const info = await transport.sendMail({
+    from: '"Urban Pro App - Administrador de Modelos" <urbanproapp@outlook.com>',
+    to: email,
+    subject: "Urban Pro App - Tarea Nueva",
+    text: "Urban Pro App, te notifica una tarea nueva!",
+    html: `<p>Hola: Urban Pro ha preparado esta tarea para ti.</p>
+    <p>Podras iniciar tu tarea tan pronto entres a Urban Pro App:
+
+    <a href="https://urbanproapp.online/">Ingresa a tu Cuenta y activa tu tarea.</a>
+    
+    
+    `,
+  });
+};
+
 export const emailRegistro = async (datos) => {
   const { email, nombre, token } = datos;
 

@@ -1,5 +1,6 @@
 import Proyecto from "../models/Proyecto.js";
 import Tarea from "../models/Tarea.js";
+import { emailNotificaciònTarea } from "../helpers/email.js";
 
 const agregarTarea = async (req, res) => {
   const { proyecto } = req.body;
@@ -25,6 +26,24 @@ const agregarTarea = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+
+  const {colaboradores} = req.body
+  console.log(colaboradores)
+
+  try {
+    const array = colaboradores.map((colaboradores) => {    // Enviar el email de confirmacion
+      emailNotificaciònTarea({
+        email: colaboradores.email
+      });
+      console.log(colaboradores.email)
+  });
+    res.json({
+      msg: "Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
 const obtenerTarea = async (req, res) => {
