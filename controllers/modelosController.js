@@ -3,7 +3,6 @@ import Usuario from "../models/Usuario.js";
 const obtenerModelos = async (req, res) => {
   try {
     const modelos = await Usuario.find({ });
-    console.log(modelos);
     res.json(modelos);
   } catch (error) {
     console.log("Error al obtener modelos: ", error.message);
@@ -28,7 +27,6 @@ const editarModelo = async (req, res) => {
   const { id } = req.params;
 
   const modelo = await Usuario.findById(id);
-  console.log(modelo);
 
   if (!modelo) {
     const error = new Error("No Encontrado");

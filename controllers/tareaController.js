@@ -28,14 +28,11 @@ const agregarTarea = async (req, res) => {
   }
 
   const {colaboradores} = req.body
-  console.log(colaboradores)
-
   try {
     const array = colaboradores.map((colaboradores) => {    // Enviar el email de confirmacion
       emailNotificaciònTarea({
         email: colaboradores.email
       });
-      console.log(colaboradores.email)
   });
     res.json({
       msg: "Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta",
@@ -118,7 +115,6 @@ const eliminarTarea = async (req, res) => {
 };
 
 const cambiarEstado = async (req, res) => {
-  console.log(req.body.estado)
   const { id } = req.params;
 
   const tarea = await Tarea.findById(id).populate("proyecto");

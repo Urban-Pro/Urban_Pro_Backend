@@ -50,7 +50,6 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     const filetypes = /jpeg|jpg|png|gif|mp4|avi|wmv|mov|quicktime/;
     const mimetype = filetypes.test(file.mimetype);
-    console.log(mimetype, file.mimetype)
     const extname = filetypes.test(
       path.extname(file.originalname).toLowerCase()
     );
