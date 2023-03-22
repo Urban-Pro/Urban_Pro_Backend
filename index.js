@@ -57,6 +57,7 @@ const upload = multer({
       return cb(null, true);
     } else {
       cb(new Error("Error: Archivo debe ser una imagen o video válido"));
+      alert("Error: Archivo debe ser una imagen o video válido\njpeg|jpg|png|gif|mp4|avi|wmv|mov Son los formatos permitidos")
     }    
   },
 });
