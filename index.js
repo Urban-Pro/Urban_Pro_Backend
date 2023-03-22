@@ -22,15 +22,7 @@ conectarDB();
 const whitelist = [process.env.FRONTEND_URL];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.includes(origin)) {
-      // Puede consultar la API
-      callback(null, true);
-    } else {
-      // No esta permitido
-      callback(new Error("Error de Cors"));
-    }
-  },
+  origin: "*"
 };
 
 app.use(cors(corsOptions));
@@ -55,8 +47,6 @@ const upload = multer({
     );
     if (mimetype && extname) {
       return cb(null, true);
-    } else if (path.extname(file.originalname).toLowerCase() === '.mov') {
-      cb(new Error("Error: Archivo .mov no permitido"));
     } else {
       cb(new Error("Error: Archivo debe ser una imagen o video válido"));
     }    
