@@ -62,8 +62,6 @@ const upload = multer({
   },
 });
 
-
-
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/proyectos", proyectoRoutes);
