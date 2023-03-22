@@ -22,7 +22,15 @@ conectarDB();
 const whitelist = [process.env.FRONTEND_URL];
 
 const corsOptions = {
-  origin: "*"
+  origin: function (origin, callback) {
+    if (whitelist.includes(origin)) {
+      // Puede consultar la API
+      callback(null, true);
+    } else {
+      // No esta permitido
+      callback(new Error("Error de Cors"));
+    }
+  },
 };
 
 app.use(cors(corsOptions));
@@ -40,8 +48,9 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
-    const filetypes = /jpeg|jpg|png|gif|mp4|avi|wmv|mov/
+    const filetypes = /jpeg|jpg|png|gif|mp4|avi|wmv|mov|quicktime/;
     const mimetype = filetypes.test(file.mimetype);
+    console.log(mimetype, file.mimetype)
     const extname = filetypes.test(
       path.extname(file.originalname).toLowerCase()
     );
