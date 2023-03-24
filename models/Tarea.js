@@ -20,6 +20,10 @@ const tareaSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    turn: {
+      type: Boolean,
+      default: false,
+    },
     fechaEntrega: {
       type: Date,
       required: true,

@@ -110,4 +110,9 @@ io.on("connection", (socket) => {
     const proyecto = tarea.proyecto._id;
     socket.to(proyecto).emit("nuevo estado", tarea);
   });
+  
+  socket.on("cambiar estado turn", (tarea) => {
+    const proyecto = tarea.proyecto._id;
+    socket.to(proyecto).emit("nuevo estado turn", tarea);
+  });
 });

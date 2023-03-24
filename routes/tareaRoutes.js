@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  camTurn,
   emailChatF,
   agregarTarea,
   obtenerTarea,
@@ -20,4 +21,5 @@ router
   .delete(checkAuth, eliminarTarea);
 
 router.post("/estado/:id", checkAuth, cambiarEstado);
+router.post("/estadoturn/:id", checkAuth, camTurn);
 export default router;

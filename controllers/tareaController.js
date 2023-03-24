@@ -114,6 +114,35 @@ const eliminarTarea = async (req, res) => {
   }
 };
 
+const camTurn = async (req, res) => {
+  console.log(req.body, "cambiando el estado")
+  // el nuevo valor de "turn" está en el cuerpo de la solicitud
+  const id = req.body.id;
+  const turn = req.body.turn;
+  console.log(id, turn)
+  
+  try {
+    if (turn == false) {
+        const updatedDoc = await Tarea.findOneAndUpdate(
+          { _id: id }, // la condición para buscar el documento
+          { turn: true }, // los valores a actualizar
+          { new: true } // opcional, devuelve el documento actualizado en lugar del original
+        );
+        res.json(updatedDoc); 
+    } else {
+      const updatedDoc = await Tarea.findOneAndUpdate(
+        { _id: id }, // la condición para buscar el documento
+        { turn:false }, // los valores a actualizar
+        { new: true } // opcional, devuelve el documento actualizado en lugar del original
+      );
+      res.json(updatedDoc);  
+    }    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al actualizar el documento" });
+  }
+}
+
 const cambiarEstado = async (req, res) => {
   const { id } = req.params;
 
@@ -165,6 +194,10 @@ const cambiarEstado = async (req, res) => {
 
 const emailChatF = async (req, res) => {
   console.log(req)
+
+  const upturn = Tarea.findOneAndUpdate(req.body.turn)
+  console.log(upturn)
+
   try {
     // Enviar el email de confirmacion
     emailChat({
@@ -172,7 +205,8 @@ const emailChatF = async (req, res) => {
       subject: req.body.subject,
       message: req.body.message,
       email: req.body.email,
-      typeAccount: req.body.typeAccount
+      typeAccount: req.body.typeAccount,
+      turn: req.body.turn
     });
 
     res.json({
@@ -184,6 +218,7 @@ const emailChatF = async (req, res) => {
 }
 
 export {
+  camTurn,
   emailChatF,
   agregarTarea,
   obtenerTarea,
