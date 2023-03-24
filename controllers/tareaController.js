@@ -1,9 +1,9 @@
 import Proyecto from "../models/Proyecto.js";
 import Tarea from "../models/Tarea.js";
-import { allowNotification, emailChat, emailNotificacionTarea } from "../helpers/email.js";
+import { allowNotification, emailChat } from "../helpers/email.js";
 
 const agregarTarea = async (req, res) => {
-  const { proyecto, colaboradores } = req.body;
+  const { proyecto } = req.body;
 
   const existeProyecto = await Proyecto.findById(proyecto);
 
@@ -22,20 +22,25 @@ const agregarTarea = async (req, res) => {
     // Almacenar el ID en el proyecto
     existeProyecto.tareas.push(tareaAlmacenada._id);
     await existeProyecto.save();
-
-    // Enviar el email de notificación a los colaboradores
-    colaboradores.forEach((colaborador) => {
-      emailNotificacionTarea({
-        email: colaborador.email,
-        tarea: tareaAlmacenada,
-      });
-    });
-
     res.json(tareaAlmacenada);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Error al agregar tarea" });
   }
+
+  const {colaboradores} = req.body
+  try {
+    const array = colaboradores.map((colaboradores) => {    // Enviar el email de confirmacion
+      emailNotificaciònTarea({
+        email: colaboradores.email
+      });
+  });
+    res.json({
+      msg: "Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
 const obtenerTarea = async (req, res) => {
@@ -81,7 +86,6 @@ const actualizarTarea = async (req, res) => {
     res.json(tareaAlmacenada);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Error al actualizar tarea" });
   }
 };
 
@@ -107,7 +111,6 @@ const eliminarTarea = async (req, res) => {
     res.json({ msg: "La Tarea se eliminó" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Error al eliminar tarea" });
   }
 };
 
@@ -141,25 +144,35 @@ const cambiarEstado = async (req, res) => {
 
   res.json(tareaAlmacenada);
 
-  // Enviar el email de notificación de cambio de estado
-  tarea.proyecto.colaboradores.forEach((colaborador) => {
-    emailNotificacionTarea({
-      email: colaborador.email,
-      tarea: tareaAlmacenada,
+/////// Envio de correo de notificaciòn de Allow o rechazado,cambio de estado
+
+  try {
+    // Enviar el email de confirmacion
+    allowNotification({
+      email: req.body.email,
+      estado: req.body.estado,
+      descripcion: req.body.descripcion
     });
-  });
+
+    res.json({
+      msg: "Usuario Creado Correctamente, Revisa tu Email para confirmar tu cuenta",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
 const emailChatF = async (req, res) => {
+  console.log(req)
   try {
-    // Enviar el email de chat
+    // Enviar el email de confirmacion
     emailChat({
       to: req.body.to,
       subject: req.body.subject,
       message: req.body.message,
       email: req.body.email,
-      typeAccount: req.body.typeAccount,
-      emailCreador: req.body.emailCreador
+      typeAccount: req.body.typeAccount
     });
 
     res.json({
@@ -167,9 +180,8 @@ const emailChatF = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Error al enviar chat" });
   }
-};
+}
 
 export {
   emailChatF,

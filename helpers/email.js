@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
                        
 export const allowNotification = async (datos) => {
   const { email, descripcion } = datos;
+  console.log("allowNotification")
 
   const transport = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -39,7 +40,8 @@ export const allowNotification = async (datos) => {
 };
 
 export const emailNotificacionTarea = async (datos) => {
-  const { email } = datos;
+  const { email } = datos;  
+  console.log("emailNotificacionTarea")
 
   const transport = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
