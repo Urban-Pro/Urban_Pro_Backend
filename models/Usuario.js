@@ -25,6 +25,10 @@ const usuarioSchema = mongoose.Schema(
     telegram: {
       type: String,
     },
+    typeAccount: {
+      type: Boolean,
+      default: false,
+    },
     confirmado: {
       type: Boolean,
       default: false,

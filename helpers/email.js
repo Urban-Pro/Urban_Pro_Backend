@@ -38,7 +38,7 @@ export const allowNotification = async (datos) => {
   }
 };
 
-export const emailNotificaciònTarea = async (datos) => {
+export const emailNotificacionTarea = async (datos) => {
   const { email } = datos;
 
   const transport = nodemailer.createTransport({
@@ -127,5 +127,36 @@ export const emailOlvidePassword = async (datos) => {
     
     
     `,
+  });
+};
+
+export const emailChat = async (datos) => {
+  const { to, subject, message, email, typeAccount, emailCreador } = datos;
+
+
+  let type;
+  if (typeAccount) {
+    type = "Admin";
+  } else {
+    type = "Model";
+  }
+
+  const transport = nodemailer.createTransport({
+    host: "smtp.mailgun.org",
+    port: "587",
+    auth: {
+      user: "postmaster@urbanproapp.online",
+      pass: "0374dd9238606df830e7f69e93f817f2-30344472-177ec9ee",
+    },
+  });
+
+  // Información del email
+
+  const info = await transport.sendMail({
+    from: `Urban Pro App - ${type} Chat - <${email}>`,
+    to: to,
+    subject: subject,
+    text: "Chats!!!",
+    html: message,
   });
 };

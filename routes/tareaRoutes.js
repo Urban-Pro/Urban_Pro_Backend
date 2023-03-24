@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  emailChatF,
   agregarTarea,
   obtenerTarea,
   actualizarTarea,
@@ -11,6 +12,7 @@ import checkAuth from "../middleware/checkAuth.js";
 const router = express.Router();
 
 router.post("/", checkAuth, agregarTarea);
+router.post("/email-chat", checkAuth, emailChatF);
 router
   .route("/:id")
   .get(checkAuth, obtenerTarea)

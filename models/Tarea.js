@@ -12,6 +12,10 @@ const tareaSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
+    emailCreador: {
+      type: String,
+      trim: true,
+    },
     estado: {
       type: Boolean,
       default: false,
