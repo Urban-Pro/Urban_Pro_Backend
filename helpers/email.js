@@ -142,11 +142,11 @@ export const emailChat = async (datos) => {
   }
 
   const transport = nodemailer.createTransport({
-    host: "smtp.mailgun.org",
-    port: "587",
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     auth: {
-      user: "postmaster@urbanproapp.online",
-      pass: "0374dd9238606df830e7f69e93f817f2-30344472-177ec9ee",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
