@@ -119,7 +119,6 @@ const camTurn = async (req, res) => {
   // el nuevo valor de "turn" está en el cuerpo de la solicitud
   const id = req.body.id;
   const turn = req.body.turn;
-  console.log(id, turn)
   
   try {
     if (turn == false) {
@@ -193,10 +192,8 @@ const cambiarEstado = async (req, res) => {
 };
 
 const emailChatF = async (req, res) => {
-  console.log(req)
 
   const upturn = Tarea.findOneAndUpdate(req.body.turn)
-  console.log(upturn)
 
   try {
     // Enviar el email de confirmacion
