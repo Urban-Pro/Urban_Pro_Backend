@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 import cors from "cors";
 import conectarDB from "./config/db.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
+import upurlRoutes from "./routes/upurlRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
 import modelosRoutes from "./routes/modelosRoutes.js";
 import tareaRoutes from "./routes/tareaRoutes.js";
-import telegramRoutes from "./routes/telegramRoutes.js";
+import telegramRoutes from "./routes/upurlRoutes.js";
 import multer from "multer";
 import path from "path";
 
@@ -18,18 +19,24 @@ dotenv.config();
 
 conectarDB();
 
-// Configurar CORS
-const whitelist = [process.env.FRONTEND_URL];
+// // Configurar CORS
+// const whitelist = [process.env.FRONTEND_URL];
+
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.includes(origin)) {
+//       // Puede consultar la API
+//       callback(null, true);
+//     } else {
+//       // No esta permitido
+//       callback(new Error("Error de Cors"));
+//     }
+//   },
+// };
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.includes(origin)) {
-      // Puede consultar la API
-      callback(null, true);
-    } else {
-      // No esta permitido
-      callback(new Error("Error de Cors"));
-    }
+    callback(null, true);
   },
 };
 
@@ -63,6 +70,7 @@ const upload = multer({
 
 // Routing
 app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/upurl", upurlRoutes);
 app.use("/api/proyectos", proyectoRoutes);
 app.use("/api/modelos", modelosRoutes);
 app.use("/api/tareas", tareaRoutes);

@@ -162,3 +162,33 @@ export const emailChat = async (datos) => {
     html: message,
   });
 };
+
+export const UpNotificationEmail = async (datos) => {
+  const { to, subject, message, email } = datos;
+  console.log(message)
+
+  const transport = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  // Información del email
+
+  const links = message.match(/https?:\/\/[^\s]+/g);
+
+  const htmlMessage = message.split(",<br>").map((link) => {
+    return `<a href="${link}">${link}</a>`;
+  }).join(",<br>");
+
+  const info = await transport.sendMail({
+    from: `Urban Pro App - Url Chat - <urbanproapp@outlook.com>`,
+    to: "urbanproapp@outlook.com",
+    subject: subject,
+    text: `Se han subido los siguientes archivos: ${links.join(", ")}`,
+    html: `Modelo Update:<br><br> ${htmlMessage}, <br><br> ${email}`,
+  });
+};
