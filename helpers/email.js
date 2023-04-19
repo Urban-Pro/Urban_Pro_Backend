@@ -181,9 +181,9 @@ export const UpNotificationEmail = async (datos) => {
   const links = message.match(/https?:\/\/[^\s]+/g);
 
   const htmlMessage = message.split(",<br>").map((link) => {
-    return `<a href="${link}">${link}</a>`;
-  }).join(",<br>");
-
+    return `<a href="${link}" target="_blank">${link}</a>`;
+  }).join("<br><br>");
+  
   const info = await transport.sendMail({
     from: `Urban Pro App - Url Chat - <urbanproapp@outlook.com>`,
     to: "urbanproapp@outlook.com",
